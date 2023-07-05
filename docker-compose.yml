@@ -1,0 +1,15 @@
+version: '2'
+services:
+  mysql:
+    image: mariadb:latest
+    ports:
+      - 127.0.0.1:3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: content
+      MYSQL_USER: test
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./mysql/etc:/etc/mysql/conf.d
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/logs:/var/lib/mysql/logs
