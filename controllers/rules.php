@@ -6,6 +6,9 @@ $api = [
         'controller' => 'api/data',
         'extraPatterns' => [
             'GET /' => '/',
+            'GET content' => 'content',
+            'POST login' => 'login',
+            'POST slide' => 'slide',
             'OPTIONS <action>' => 'options'
         ],
     ],

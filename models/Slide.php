@@ -11,6 +11,7 @@ use Yii;
  * @property int $order
  * @property string $description
  * @property string $img
+ * @property string $img_mob
  */
 class Slide extends \yii\db\ActiveRecord
 {
@@ -28,10 +29,10 @@ class Slide extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['order', 'description', 'img'], 'required'],
+            [['order', 'description', 'img', 'img_mob'], 'required'],
             [['order'], 'integer'],
             [['description'], 'string'],
-            [['img'], 'string', 'max' => 255],
+            [['img', 'img_mob'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,6 +46,7 @@ class Slide extends \yii\db\ActiveRecord
             'order' => 'Order',
             'description' => 'Description',
             'img' => 'Img',
+            'img_mob' => 'Img mobile'
         ];
     }
 }
