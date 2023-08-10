@@ -2,12 +2,15 @@
 
 namespace app\controllers\api;
 
+use app\models\Price;
 use app\models\Service;
 use app\models\Slide;
 use app\models\User;
+use app\models\Works;
 use yii\filters\auth\HttpBearerAuth;
 use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
+
 class Bearer extends HttpBearerAuth
 {
     public function handleFailure($response)
@@ -26,7 +29,7 @@ class DataController extends Controller
 
     public function init()
     {
-        $this->param  = \Yii::$app->request->post() ?: \Yii::$app->request->get();
+        $this->param = \Yii::$app->request->post() ?: \Yii::$app->request->get();
     }
 
     public function behaviors()
@@ -62,7 +65,8 @@ class DataController extends Controller
     {
         $service = Service::find()->with('price')->asArray()->all();
         $slides = Slide::find()->all();
-        return ['service' => $service, 'slides' => $slides];
+        $works = Works::find()->all();
+        return ['service' => $service, 'slides' => $slides, 'works' => $works];
     }
 
     public function actionLogin()
@@ -73,8 +77,8 @@ class DataController extends Controller
 
             $userModel = User::find()->where(['login' => $data['username']])->one();
 
-            if($userModel) {
-                if(\Yii::$app->security->validatePassword($data['password'], $userModel->pass)) {
+            if ($userModel) {
+                if (\Yii::$app->security->validatePassword($data['password'], $userModel->pass)) {
                     return ArrayHelper::merge(
                         ['response' => ['access_token' => $userModel->token]],
                         ['message' => 'Авторизация успешна'],
@@ -103,7 +107,6 @@ class DataController extends Controller
             }
 
 
-
         } catch (yii\web\HttpException $e) {
             return Util::returnInfo($e, 'authorization_error', true);
         } catch (\ErrorException $e) {
@@ -111,7 +114,118 @@ class DataController extends Controller
         }
     }
 
-    public function actionSlide() {
-        return $this->param;
+    public function actionSlide()
+    {
+
+        $data = $this->param;
+        if (isset($data['id'])) {
+            $model = Slide::find()->where(['id' => $data['id']])->one();
+        } else {
+            $model = new Slide();
+        }
+
+
+        $model->load($data, '');
+
+        if (strripos($data['img'], 'uploads/') === false) {
+            $nameFileDesk = strtolower(trim($data['title']));
+            $nameFileDesk = str_replace(' ', '_', $nameFileDesk) . ".png";
+            $relativePathDesk = 'uploads/img/' . $nameFileDesk;
+            $this->base64_to_jpeg($data['img'], $relativePathDesk);
+            $model->img = $relativePathDesk;
+        }
+        if (strripos($data['img_mob'], 'uploads/') === false) {
+            $nameFileMob = strtolower(trim($data['title'])) . '_mob';
+            $nameFileMob = str_replace(' ', '_', $nameFileMob) . ".png";
+            $relativePath = 'uploads/img/' . $nameFileMob;
+            $this->base64_to_jpeg($data['img_mob'], $relativePath);
+            $model->img_mob = $relativePath;
+        }
+
+        $model->save(false);
+
+        return $model;
+    }
+    public function actionRemoveSlide() {
+        $model = Slide::find()->where(['id' => $this->param['id']])->one();
+        if($model->delete()) {
+            return true;
+        }
+        return false;
+    }
+    public function actionRemoveService() {
+        $model = Service::find()->where(['id' => $this->param['id']])->one();
+        $modelPrice = Price::find()->where(['id_service' => $model->id])->all();
+        foreach ($modelPrice as $price) {
+            $price->delete();
+        }
+        if($model->delete()) {
+            return true;
+        }
+        return false;
+    }
+    public function actionRemoveWork() {
+        $model = Works::find()->where(['id' => $this->param['id']])->one();
+        if($model->delete()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function actionService()
+    {
+        $data = $this->param;
+        if (isset($data['id'])) {
+            $model = Service::find()->where(['id' => $data['id']])->one();
+        } else {
+            $model = new Service();
+        }
+        $model->load($data, '');
+        $model->save(false);
+        if (count($data['price']) > 0) {
+            $oldPricies = Price::find()->where(['id_service' => $model->id])->all();
+            foreach ($oldPricies as $oldPrice) {
+                $oldPrice->delete();
+            }
+            foreach ($data['price'] as $price) {
+                $newPrice = new Price();
+                $newPrice->load($price, '');
+                $newPrice->id_service = $model->id;
+                $newPrice->save(false);
+            }
+        }
+        return Service::find()->where(['id' => $model->id])->with('price')->asArray()->one();
+
+    }
+
+    public function actionWorks() {
+        $data = $this->param;
+        if (isset($data['id'])) {
+            $model = Works::find()->where(['id' => $data['id']])->one();
+        } else {
+            $model = new Works();
+        }
+
+
+        $date = new \DateTime('now');
+        $name = strtotime($date->format('Y-m-d H:m:i')) . ".png";
+
+        if (strripos($data['img'], 'uploads/') === false) {
+            $relativePathDesk = 'uploads/img/' . $name;
+            $this->base64_to_jpeg($data['img'], $relativePathDesk);
+            $model->img = $relativePathDesk;
+        }
+        if($model->save()) {
+            return $model;
+        }
+        return false;
+    }
+
+    public function base64_to_jpeg($base64_string, $output_file)
+    {
+        $ifp = fopen($output_file, "w+");
+        $data = explode(',', $base64_string);
+        fwrite($ifp, base64_decode($data[1]));
+        fclose($ifp);
     }
 }

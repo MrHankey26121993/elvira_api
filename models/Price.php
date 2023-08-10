@@ -10,7 +10,6 @@ use Yii;
  * @property int $id
  * @property string $description
  * @property float $price
- * @property string $value
  * @property int $id_service
  */
 class Price extends \yii\db\ActiveRecord
@@ -29,11 +28,10 @@ class Price extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['description', 'price', 'value', 'id_service'], 'required'],
+            [['description', 'price', 'id_service'], 'required'],
             [['description'], 'string'],
             [['price'], 'number'],
-            [['id_service'], 'integer'],
-            [['value'], 'string', 'max' => 45],
+            [['id_service'], 'integer']
         ];
     }
 
@@ -46,7 +44,6 @@ class Price extends \yii\db\ActiveRecord
             'id' => 'ID',
             'description' => 'Description',
             'price' => 'Price',
-            'value' => 'Value',
             'id_service' => 'Id Service',
         ];
     }

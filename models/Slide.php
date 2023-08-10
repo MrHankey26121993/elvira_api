@@ -12,6 +12,7 @@ use Yii;
  * @property string $description
  * @property string $img
  * @property string $img_mob
+ * @property string $title
  */
 class Slide extends \yii\db\ActiveRecord
 {
@@ -32,7 +33,7 @@ class Slide extends \yii\db\ActiveRecord
             [['order', 'description', 'img', 'img_mob'], 'required'],
             [['order'], 'integer'],
             [['description'], 'string'],
-            [['img', 'img_mob'], 'string', 'max' => 255],
+            [['img', 'img_mob', 'title'], 'string', 'max' => 255],
         ];
     }
 
@@ -46,7 +47,8 @@ class Slide extends \yii\db\ActiveRecord
             'order' => 'Order',
             'description' => 'Description',
             'img' => 'Img',
-            'img_mob' => 'Img mobile'
+            'img_mob' => 'Img mobile',
+            'title' => 'Title',
         ];
     }
 }

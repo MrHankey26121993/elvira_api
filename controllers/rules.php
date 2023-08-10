@@ -9,6 +9,11 @@ $api = [
             'GET content' => 'content',
             'POST login' => 'login',
             'POST slide' => 'slide',
+            'POST works' => 'works',
+            'DELETE slide' => 'remove-slide',
+            'DELETE service' => 'remove-service',
+            'DELETE works' => 'remove-work',
+            'POST service' => 'service',
             'OPTIONS <action>' => 'options'
         ],
     ],
