@@ -14,6 +14,7 @@ $api = [
             'DELETE service' => 'remove-service',
             'DELETE works' => 'remove-work',
             'POST service' => 'service',
+            'POST form' => 'form',
             'OPTIONS <action>' => 'options'
         ],
     ],

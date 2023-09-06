@@ -146,27 +146,33 @@ class DataController extends Controller
 
         return $model;
     }
-    public function actionRemoveSlide() {
+
+    public function actionRemoveSlide()
+    {
         $model = Slide::find()->where(['id' => $this->param['id']])->one();
-        if($model->delete()) {
+        if ($model->delete()) {
             return true;
         }
         return false;
     }
-    public function actionRemoveService() {
+
+    public function actionRemoveService()
+    {
         $model = Service::find()->where(['id' => $this->param['id']])->one();
         $modelPrice = Price::find()->where(['id_service' => $model->id])->all();
         foreach ($modelPrice as $price) {
             $price->delete();
         }
-        if($model->delete()) {
+        if ($model->delete()) {
             return true;
         }
         return false;
     }
-    public function actionRemoveWork() {
+
+    public function actionRemoveWork()
+    {
         $model = Works::find()->where(['id' => $this->param['id']])->one();
-        if($model->delete()) {
+        if ($model->delete()) {
             return true;
         }
         return false;
@@ -198,7 +204,8 @@ class DataController extends Controller
 
     }
 
-    public function actionWorks() {
+    public function actionWorks()
+    {
         $data = $this->param;
         if (isset($data['id'])) {
             $model = Works::find()->where(['id' => $data['id']])->one();
@@ -215,7 +222,7 @@ class DataController extends Controller
             $this->base64_to_jpeg($data['img'], $relativePathDesk);
             $model->img = $relativePathDesk;
         }
-        if($model->save()) {
+        if ($model->save()) {
             return $model;
         }
         return false;
@@ -227,5 +234,18 @@ class DataController extends Controller
         $data = explode(',', $base64_string);
         fwrite($ifp, base64_decode($data[1]));
         fclose($ifp);
+    }
+
+    public function actionForm()
+    {
+
+        \Yii::$app->mailer->compose()
+            ->setFrom('test@234615.fornex.cloud')
+            ->setTo('mrhankey261993@gmail.com')
+            ->setSubject('Тема сообщения')
+            ->setTextBody('Текст сообщения')
+            ->setHtmlBody('<b>текст сообщения в формате HTML</b>')
+            ->send();
+        return $this->param;
     }
 }

@@ -33,10 +33,16 @@ $config = [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'viewPath' => '@app/mail',
-            // send all mails to a file by default.
+            'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => true,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'mail.234615.fornex.cloud',
+                'username' => 'test',
+                'password' => 'Testtest1',
+                'port' => '25',
+            ],
+
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
