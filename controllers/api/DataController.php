@@ -55,7 +55,8 @@ class DataController extends Controller
         $behaviors['authenticator']['except'] = [
             'login',
             'index',
-            'content'
+            'content',
+            'form'
         ];
         return $behaviors;
     }
