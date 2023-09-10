@@ -241,7 +241,7 @@ class DataController extends Controller
     {
 
         \Yii::$app->mailer->compose()
-            ->setFrom('test@234615.fornex.cloud')
+            ->setFrom('no-repeat@elvirabeauty.fr')
             ->setTo('mrhankey261993@gmail.com')
             ->setSubject('Тема сообщения')
             ->setTextBody('Текст сообщения')
