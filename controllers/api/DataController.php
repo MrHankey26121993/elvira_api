@@ -53,10 +53,12 @@ class DataController extends Controller
         unset($behaviors['rateLimiter']);
 
         $behaviors['authenticator']['except'] = [
+            'options',
             'login',
             'index',
             'content',
             'form'
+
         ];
         return $behaviors;
     }
