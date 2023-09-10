@@ -37,9 +37,9 @@ $config = [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'mail.234615.fornex.cloud',
-                'username' => 'test',
-                'password' => 'Testtest1',
+                'host' => 'mail.elvirabeauty.fr',
+                'username' => 'no-repeat@elvirabeauty.fr',
+                'password' => 'WoyxpWC9',
                 'port' => '25',
             ],
 
