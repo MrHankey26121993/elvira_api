@@ -33,6 +33,17 @@ class DataController extends Controller
         $this->param = \Yii::$app->request->post() ?: \Yii::$app->request->get();
     }
 
+    public function actions()
+    {
+        return [
+            'options' => [
+                'class' => 'yii\rest\OptionsAction',
+                'collectionOptions' => ['GET', 'POST', 'HEAD', 'OPTIONS'],
+                'resourceOptions' => ['GET', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+            ],
+        ];
+    }
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
