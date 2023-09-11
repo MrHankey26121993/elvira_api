@@ -75,7 +75,6 @@ class DataController extends Controller
         return $behaviors;
     }
 
-
     public function actionContent()
     {
         $service = Service::find()->with('price')->asArray()->all();
