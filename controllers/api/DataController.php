@@ -272,7 +272,7 @@ class DataController extends Controller
 
         \Yii::$app->mailer->compose()
             ->setFrom('no-repeat@elvirabeauty.fr')
-            ->setTo('mrhankey261993@gmail.com')
+            ->setTo('elvirabeautypmu@gmail.com')
             ->setSubject('Vous avez une nouvelle demande de contact!')
             ->setHtmlBody($text)
             ->send();
