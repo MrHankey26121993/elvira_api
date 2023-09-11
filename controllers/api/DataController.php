@@ -7,7 +7,6 @@ use app\models\Service;
 use app\models\Slide;
 use app\models\User;
 use app\models\Works;
-use yii\filters\AccessControl;
 use yii\filters\auth\HttpBearerAuth;
 use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
@@ -18,7 +17,8 @@ class Bearer extends HttpBearerAuth
     {
         \Yii::$app->response->setStatusCode(401);
         return \Yii::$app->response->data = [
-            'message' => 'You need autorization'
+            'message' => 'You need autorization',
+            'message1' => $response->getHeaders()
         ];
     }
 }
