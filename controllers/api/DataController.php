@@ -255,12 +255,26 @@ class DataController extends Controller
     public function actionForm()
     {
 
+        $name = $this->param['name'];
+        $number = $this->param['number'];
+        $email = $this->param['email'];
+        $comment = $this->param['comment'];
+
+        $text = "<strong>Vous avez une nouvelle demande de contact!</strong><br><p>
+        Nom prénom: $name
+        <br>
+        Téléphone: $number
+        <br>
+        Email: $email
+        <br>
+        Votre demande: $comment
+        </p>";
+
         \Yii::$app->mailer->compose()
             ->setFrom('no-repeat@elvirabeauty.fr')
             ->setTo('mrhankey261993@gmail.com')
-            ->setSubject('Тема сообщения')
-            ->setTextBody('Текст сообщения')
-            ->setHtmlBody('<b>текст сообщения в формате HTML</b>')
+            ->setSubject('Vous avez une nouvelle demande de contact!')
+            ->setHtmlBody($text)
             ->send();
         return $this->param;
     }

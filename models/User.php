@@ -40,7 +40,7 @@ class User extends \yii\db\ActiveRecord  implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
         return static::find()
-            ->where(['token' => 'i5nEJcZvfxE1gayXibVWJd01vo4TJ-eq'])
+            ->where(['token' => $token])
             ->one();
     }
 
