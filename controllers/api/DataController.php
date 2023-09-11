@@ -7,6 +7,7 @@ use app\models\Service;
 use app\models\Slide;
 use app\models\User;
 use app\models\Works;
+use yii\filters\AccessControl;
 use yii\filters\auth\HttpBearerAuth;
 use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
@@ -45,7 +46,6 @@ class DataController extends Controller
 
         $behaviors['authenticator'] = $auth;
         // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
-        $behaviors['authenticator']['except'] = ['options'];
 
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::class
@@ -58,8 +58,18 @@ class DataController extends Controller
             'index',
             'content',
             'form'
-
         ];
+
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['@']
+                ]
+            ],
+        ];
+
         return $behaviors;
     }
 
