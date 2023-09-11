@@ -15,10 +15,11 @@ class Bearer extends HttpBearerAuth
 {
     public function handleFailure($response)
     {
+        $test = User::find()->all();
         \Yii::$app->response->setStatusCode(401);
         return \Yii::$app->response->data = [
             'message' => 'You need autorization',
-            'message1' => $response->getHeaders()
+            'message1' => $test
         ];
     }
 }
