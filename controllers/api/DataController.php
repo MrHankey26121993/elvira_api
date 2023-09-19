@@ -148,18 +148,19 @@ class DataController extends Controller
 
         $model->load($data, '');
 
-        $strtotime = strtotime("now");
+        $date = new \DateTime('now');
+        $name = strtotime($date->format('Y-m-d H:m:i'));
 
         if (strripos($data['img'], 'uploads/') === false) {
-            $nameFileDesk = $strtotime;
-            $nameFileDesk = str_replace(' ', '_', $nameFileDesk) . ".png";
+            $nameFileDesk = $name;
+            $nameFileDesk = str_replace(' ', '_', $name) . ".png";
             $relativePathDesk = 'uploads/img/' . $nameFileDesk;
             $this->base64_to_jpeg($data['img'], $relativePathDesk);
             $model->img = $relativePathDesk;
         }
         if (strripos($data['img_mob'], 'uploads/') === false) {
-            $nameFileMob = $strtotime . '_mob';
-            $nameFileMob = str_replace(' ', '_', $nameFileMob) . ".png";
+            $nameFileMob = $name . '_mob';
+            $nameFileMob = str_replace(' ', '_', $name) . ".png";
             $relativePath = 'uploads/img/' . $nameFileMob;
             $this->base64_to_jpeg($data['img_mob'], $relativePath);
             $model->img_mob = $relativePath;
