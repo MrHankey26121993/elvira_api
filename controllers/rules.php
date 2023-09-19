@@ -7,7 +7,6 @@ $api = [
         'extraPatterns' => [
             'GET content' => 'content',
             'POST login' => 'login',
-            'GET login' => 'login',
             'OPTIONS login' => 'options',
             'POST slide' => 'slide',
             'OPTIONS slide' => 'options',
