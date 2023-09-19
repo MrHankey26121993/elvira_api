@@ -5,7 +5,6 @@ $api = [
         'pluralize' => false,
         'controller' => 'api/data',
         'extraPatterns' => [
-            'GET /' => '/',
             'GET content' => 'content',
             'POST login' => 'login',
             'GET login' => 'login',
