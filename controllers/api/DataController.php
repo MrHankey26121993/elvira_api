@@ -38,7 +38,6 @@ class DataController extends Controller
     public function beforeAction($action)
     {
         if (parent::beforeAction($action)) {
-            echo print_r($action);
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return true;
         }
@@ -60,10 +59,6 @@ class DataController extends Controller
     {
         $behaviors = parent::behaviors();
 
-        // remove authentication filter
-        $auth = $behaviors['authenticator'] = [
-            'class' => Bearer::className(),
-        ];
 
         unset($behaviors['authenticator']);
 
@@ -73,21 +68,19 @@ class DataController extends Controller
                 'Origin' => ['*'],
                 'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
                 'Access-Control-Request-Headers' => ['*'],
+                'Access-Control-Allow-Credentials' => true,
             ],
         ];
-        $behaviors['authenticator'] = $auth;
-        // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
 
-
-        unset($behaviors['rateLimiter']);
-
-        $behaviors['authenticator']['except'] = [
-            'options',
-            'login',
-            'index',
-            'content',
-            'form',
-
+        $behaviors['authenticator'] = [
+            'class' => Bearer::className(),
+            'except' => [
+                'options',
+                'login',
+                'index',
+                'content',
+                'form',
+            ]
         ];
 
 
