@@ -65,9 +65,9 @@ class DataController extends Controller
 
             'cors' => [
 
-                'Origin' => ['*'],
+                'Origin' => ['*', 'https://elvirabeauty.fr'],
 
-                'Access-Control-Allow-Origin' => ['*'],
+                'Access-Control-Allow-Origin' => ['*', 'https://10.10.10.79:8080','http://localhost:19006'],
 
                 'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
 
