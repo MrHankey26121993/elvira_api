@@ -7,7 +7,6 @@ use app\models\Service;
 use app\models\Slide;
 use app\models\User;
 use app\models\Works;
-use yii\filters\AccessControl;
 use yii\filters\auth\HttpBearerAuth;
 use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
@@ -31,18 +30,6 @@ class DataController extends Controller
 
     public $param;
 
-    public $enableCsrfValidation = false;
-
-    public function beforeAction($action)
-    {
-
-        $this->enableCsrfValidation = false;
-        header('Access-Control-Allow-Origin: *');
-
-
-        return parent::beforeAction($action);
-    }
-
     public function init()
     {
         $this->param = \Yii::$app->request->post() ?: \Yii::$app->request->get();
@@ -59,41 +46,23 @@ class DataController extends Controller
         ];
     }
 
-    public static function allowedDomains()
-    {
-        return [
-            '*',                        // star allows all domains
-            'https://elvirabeauty.fr/',
-        ];
-    }
-
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-
-        unset($behaviors['authenticator']);
-
-        $behaviors['corsFilter'] = [
-            'class' => \yii\filters\Cors::className(),
-            'cors' => [
-                // restrict access to domains:
-                'Origin' => static::allowedDomains(),
-                'Access-Control-Request-Method' => ['GET','POST','PATCH','PUT','DELETE'],
-                'Access-Control-Allow-Credentials' => true,
-                'Access-Control-Max-Age' => 3600,                 // Cache (seconds)
-                'Access-Control-Request-Headers' => ['*'],
-            ],
-        ];
 
         // remove authentication filter
         $auth = $behaviors['authenticator'] = [
             'class' => Bearer::className(),
         ];
 
+        unset($behaviors['authenticator']);
 
         $behaviors['authenticator'] = $auth;
         // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
 
+        $behaviors['corsFilter'] = [
+            'class' => \yii\filters\Cors::class
+        ];
         unset($behaviors['rateLimiter']);
 
         $behaviors['authenticator']['except'] = [
