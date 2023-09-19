@@ -37,6 +37,7 @@ class DataController extends Controller
     {
 
         $this->enableCsrfValidation = false;
+        header('Access-Control-Allow-Origin: *');
 
 
         return parent::beforeAction($action);
