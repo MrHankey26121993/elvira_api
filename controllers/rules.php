@@ -18,7 +18,7 @@ $api = [
             'POST service' => 'service',
             'OPTIONS service' => 'options',
             'POST form' => 'form',
-            'OPTIONS <module:\w+>s/<action>' => 'api/default/options',
+            'OPTIONS <module:\w+>s/<action>' => 'options',
         ],
     ],
     [
