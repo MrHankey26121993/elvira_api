@@ -10,7 +10,6 @@ use app\models\Works;
 use yii\filters\auth\HttpBearerAuth;
 use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
-use yii\filters\Cors;
 
 class Bearer extends HttpBearerAuth
 {
@@ -51,24 +50,21 @@ class DataController extends Controller
     {
         $behaviors = parent::behaviors();
 
-        // remove auth filter
-        unset($behaviors['authenticator']);
-
-        // add CORS filter
-        $behaviors['corsFilter'] = [
-            'class' => Cors::class,
-            'cors' => [
-                'Origin' => ['*'],
-                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-                'Access-Control-Allow-Headers' => ['content-type'],
-                'Access-Control-Request-Headers' => ['*'],
-            ],
-        ];
-
-        // re-add authentication filter
-        $behaviors['authenticator'] = [
+        // remove authentication filter
+        $auth = $behaviors['authenticator'] = [
             'class' => Bearer::className(),
         ];
+
+        unset($behaviors['authenticator']);
+
+        $behaviors['corsFilter'] = [
+            'class' => \yii\filters\Cors::class
+        ];
+        $behaviors['authenticator'] = $auth;
+        // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
+
+
+        unset($behaviors['rateLimiter']);
 
         $behaviors['authenticator']['except'] = [
             'options',
