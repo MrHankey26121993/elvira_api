@@ -64,7 +64,6 @@ class DataController extends Controller
             'class' => \yii\filters\Cors::class,
             'cors' => [
                 // restrict access to
-                'Origin' => ['*'],
                 'Access-Control-Allow-Origin' => ['*'],
                 'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
                 'Access-Control-Allow-Credentials' => true,
