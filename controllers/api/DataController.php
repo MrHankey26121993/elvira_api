@@ -92,15 +92,6 @@ class DataController extends Controller
             'form'
         ];
 
-        $behaviors['access'] = [
-            'class' => AccessControl::className(),
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['@']
-                ]
-            ],
-        ];
 
 
         return $behaviors;
