@@ -160,7 +160,7 @@ class DataController extends Controller
         }
         if (strripos($data['img_mob'], 'uploads/') === false) {
             $nameFileMob = $name . '_mob';
-            $nameFileMob = str_replace(' ', '_', $nameFileDesk) . ".png";
+            $nameFileMob = str_replace(' ', '_', $nameFileMob) . ".png";
             $relativePath = 'uploads/img/' . $nameFileMob;
             $this->base64_to_jpeg($data['img_mob'], $relativePath);
             $model->img_mob = $relativePath;
