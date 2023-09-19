@@ -75,8 +75,13 @@ class DataController extends Controller
         ];
 
 
-        $behaviors['contentNegotiator']['formats'] = [
-            'application/json' => \yii\web\Response::FORMAT_JSON
+        $behaviors['contentNegotiator'] = [
+            'class' => \yii\filters\ContentNegotiator::class,
+            'formatParam' => '_format',
+            'formats' => [
+                'application/json' => \yii\web\Response::FORMAT_JSON,
+                'xml' => \yii\web\Response::FORMAT_XML
+            ],
         ];
 
 
@@ -94,40 +99,38 @@ class DataController extends Controller
     public function actionLogin()
     {
 
+        $data = $this->param;
 
-            $data = $this->param;
+        $userModel = User::find()->where(['login' => $data['username']])->one();
 
-            $userModel = User::find()->where(['login' => $data['username']])->one();
-
-            if ($userModel) {
-                if (\Yii::$app->security->validatePassword($data['password'], $userModel->pass)) {
-                    return ArrayHelper::merge(
-                        ['response' => ['access_token' => $userModel->token]],
-                        ['message' => 'Авторизация успешна'],
-                        ['error' => false]
-                    );
-                } else {
-                    return ArrayHelper::merge(
-                        ['response' => []],
-                        ['message' => 'Неверный логин или пароль'],
-                        ['error' => true]
-                    );
-                }
-            } else {
-                $newUser = new User();
-                $newUser->login = $data['username'];
-                $newUser->pass = \Yii::$app->security->generatePasswordHash($data['password']);
-                $newUser->token = \Yii::$app->security->generateRandomString();
-
-                $newUser->save(false);
-
+        if ($userModel) {
+            if (\Yii::$app->security->validatePassword($data['password'], $userModel->pass)) {
                 return ArrayHelper::merge(
-                    ['response' => ['access_token' => $newUser->token]],
+                    ['response' => ['access_token' => $userModel->token]],
                     ['message' => 'Авторизация успешна'],
                     ['error' => false]
                 );
+            } else {
+                return ArrayHelper::merge(
+                    ['response' => []],
+                    ['message' => 'Неверный логин или пароль'],
+                    ['error' => true]
+                );
             }
+        } else {
+            $newUser = new User();
+            $newUser->login = $data['username'];
+            $newUser->pass = \Yii::$app->security->generatePasswordHash($data['password']);
+            $newUser->token = \Yii::$app->security->generateRandomString();
 
+            $newUser->save(false);
+
+            return ArrayHelper::merge(
+                ['response' => ['access_token' => $newUser->token]],
+                ['message' => 'Авторизация успешна'],
+                ['error' => false]
+            );
+        }
 
 
     }
