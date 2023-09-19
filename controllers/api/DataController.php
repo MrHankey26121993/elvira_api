@@ -93,7 +93,7 @@ class DataController extends Controller
 
     public function actionLogin()
     {
-        try {
+
 
             $data = $this->param;
 
@@ -129,11 +129,7 @@ class DataController extends Controller
             }
 
 
-        } catch (yii\web\HttpException $e) {
-            return $e;
-        } catch (\ErrorException $e) {
-            return $e;
-        }
+
     }
 
     public function actionSlide()
