@@ -55,8 +55,13 @@ class DataController extends Controller
             'class' => Bearer::className(),
         ];
 
+        unset($behaviors['authenticator']);
+
+        $behaviors['authenticator'] = $auth;
+        // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
+
         $behaviors['corsFilter'] = [
-            'class' => \yii\filters\Cors::className(),
+            'class' => \yii\filters\Cors::class,
             'cors' => [
                 // restrict access to
                 'Origin' => ['*'],
@@ -66,10 +71,6 @@ class DataController extends Controller
             ]
         ];
 
-        unset($behaviors['authenticator']);
-
-        $behaviors['authenticator'] = $auth;
-        // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
 
         unset($behaviors['rateLimiter']);
 
