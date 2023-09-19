@@ -45,14 +45,18 @@ class DataController extends Controller
     }
 
     public function actions()
+
+
     {
-        return [
-            'options' => [
-                'class' => 'yii\rest\OptionsAction',
-                'collectionOptions' => ['GET', 'POST', 'HEAD', 'OPTIONS'],
-                'resourceOptions' => ['GET', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-            ],
+
+        $actions = parent::actions();
+        $actions['options'] = [
+            'class' => 'yii\rest\OptionsAction',
+            // optional:
+            'collectionOptions' => ['GET', 'POST', 'HEAD', 'OPTIONS'],
+            'resourceOptions' => ['GET', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
         ];
+        return $actions;
     }
 
     public function behaviors()
@@ -65,15 +69,29 @@ class DataController extends Controller
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::class,
             'cors' => [
-                'Origin' => ['*'],
-                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-                'Access-Control-Request-Headers' => ['*'],
-                'Access-Control-Allow-Credentials' => true,
+                'Origin' => [
+                    '*',
+                ],
+                'Access-Control-Request-Method' => [
+                    'GET',
+                    'POST',
+                    'PUT',
+                    'PATCH',
+                    'DELETE',
+                    'HEAD',
+                    'OPTIONS',
+                ],
+                'Access-Control-Request-Headers' => [
+                    '*',
+                ],
+                'Access-Control-Allow-Credentials' => null,
+                'Access-Control-Max-Age' => 86400,
+                'Access-Control-Expose-Headers' => [],
             ],
         ];
 
         $behaviors['authenticator'] = [
-            'class' => Bearer::className(),
+            'class' => Bearer::class,
             'except' => [
                 'options',
                 'login',
