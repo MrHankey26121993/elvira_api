@@ -9,4 +9,8 @@ require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
 
 $config = require __DIR__ . '/../config/web.php';
 
+header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Credentials: true');
+
 (new yii\web\Application($config))->run();
