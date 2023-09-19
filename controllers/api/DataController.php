@@ -36,7 +36,6 @@ class DataController extends Controller
     }
 
 
-
     public function actions()
     {
         return [
@@ -131,9 +130,9 @@ class DataController extends Controller
 
 
         } catch (yii\web\HttpException $e) {
-            return Util::returnInfo($e, 'authorization_error', true);
+            return $e;
         } catch (\ErrorException $e) {
-            return Util::returnInfo([], 'authorization_error', true);
+            return $e;
         }
     }
 
