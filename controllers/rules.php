@@ -8,6 +8,7 @@ $api = [
             'GET /' => '/',
             'GET content' => 'content',
             'POST login' => 'login',
+            'OPTIONS login' => 'options',
             'POST slide' => 'slide',
             'OPTIONS slide' => 'options',
             'POST works' => 'works',
