@@ -46,6 +46,15 @@ class DataController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        if (parent::beforeAction($action)) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            return true;
+        }
+
+    }
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
