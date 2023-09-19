@@ -35,6 +35,15 @@ class DataController extends Controller
         $this->param = \Yii::$app->request->post() ?: \Yii::$app->request->get();
     }
 
+    public function beforeAction($action)
+    {
+        if (parent::beforeAction($action)) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return true;
+        }
+
+    }
+
     public function actions()
     {
         return [
