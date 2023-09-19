@@ -38,6 +38,7 @@ class DataController extends Controller
     public function beforeAction($action)
     {
         if (parent::beforeAction($action)) {
+            echo $action;
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return true;
         }
