@@ -60,18 +60,20 @@ class DataController extends Controller
         $behaviors['authenticator'] = $auth;
         // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
 
+//        $behaviors['corsFilter'] = [
+//            'class' => \yii\filters\Cors::class
+//        ];
+
         $behaviors['corsFilter'] = [
-            'class' => \yii\filters\Cors::class,
+            'class' => \yii\filters\Cors::className(),
             'cors' => [
                 // restrict access to
-                'Access-Control-Allow-Origin' => ['*'],
+                'Origin' => ['*'],
                 'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
                 'Access-Control-Allow-Credentials' => true,
                 'Access-Control-Max-Age'           => 3600,
             ]
         ];
-
-
         unset($behaviors['rateLimiter']);
 
         $behaviors['authenticator']['except'] = [
