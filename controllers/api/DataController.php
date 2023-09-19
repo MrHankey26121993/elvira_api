@@ -7,6 +7,7 @@ use app\models\Service;
 use app\models\Slide;
 use app\models\User;
 use app\models\Works;
+use yii\filters\AccessControl;
 use yii\filters\auth\HttpBearerAuth;
 use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
@@ -89,6 +90,16 @@ class DataController extends Controller
             'index',
             'content',
             'form'
+        ];
+
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['@']
+                ]
+            ],
         ];
 
 
