@@ -31,6 +31,17 @@ class DataController extends Controller
 
     public $param;
 
+    public $enableCsrfValidation = false;
+
+    public function beforeAction($action)
+    {
+
+        $this->enableCsrfValidation = false;
+
+
+        return parent::beforeAction($action);
+    }
+
     public function init()
     {
         $this->param = \Yii::$app->request->post() ?: \Yii::$app->request->get();
@@ -47,9 +58,10 @@ class DataController extends Controller
         ];
     }
 
-    public static function allowedDomains() {
+    public static function allowedDomains()
+    {
         return [
-             '*',                        // star allows all domains
+            '*',                        // star allows all domains
             'https://elvirabeauty.fr/',
         ];
     }
@@ -70,12 +82,12 @@ class DataController extends Controller
 
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::className(),
-            'cors'  => [
+            'cors' => [
                 // restrict access to domains:
-                'Origin'                           => static::allowedDomains(),
-                'Access-Control-Request-Method'    => ['POST'],
+                'Origin' => static::allowedDomains(),
+                'Access-Control-Request-Method' => ['POST'],
                 'Access-Control-Allow-Credentials' => true,
-                'Access-Control-Max-Age'           => 3600,                 // Cache (seconds)
+                'Access-Control-Max-Age' => 3600,                 // Cache (seconds)
             ],
         ];
         unset($behaviors['rateLimiter']);
@@ -87,7 +99,6 @@ class DataController extends Controller
             'content',
             'form'
         ];
-
 
 
         return $behaviors;
