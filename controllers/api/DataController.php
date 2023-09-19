@@ -57,15 +57,14 @@ class DataController extends Controller
         ];
 
         unset($behaviors['authenticator']);
-
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::class
         ];
+        unset($behaviors['rateLimiter']);
+
+
         $behaviors['authenticator'] = $auth;
         // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
-
-
-        unset($behaviors['rateLimiter']);
 
         $behaviors['authenticator']['except'] = [
             'login',
@@ -74,6 +73,7 @@ class DataController extends Controller
             'form',
             'options',
         ];
+
 
         $behaviors['contentNegotiator']['formats'] = [
             'application/json' => \yii\web\Response::FORMAT_JSON
