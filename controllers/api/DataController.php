@@ -153,14 +153,14 @@ class DataController extends Controller
 
         if (strripos($data['img'], 'uploads/') === false) {
             $nameFileDesk = $name;
-            $nameFileDesk = str_replace(' ', '_', $name) . ".png";
+            $nameFileDesk = str_replace(' ', '_', $nameFileDesk) . ".png";
             $relativePathDesk = 'uploads/img/' . $nameFileDesk;
             $this->base64_to_jpeg($data['img'], $relativePathDesk);
             $model->img = $relativePathDesk;
         }
         if (strripos($data['img_mob'], 'uploads/') === false) {
             $nameFileMob = $name . '_mob';
-            $nameFileMob = str_replace(' ', '_', $name) . ".png";
+            $nameFileMob = str_replace(' ', '_', $nameFileDesk) . ".png";
             $relativePath = 'uploads/img/' . $nameFileMob;
             $this->base64_to_jpeg($data['img_mob'], $relativePath);
             $model->img_mob = $relativePath;
