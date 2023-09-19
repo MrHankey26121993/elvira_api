@@ -76,6 +76,10 @@ class DataController extends Controller
             'options',
         ];
 
+        $behaviors['contentNegotiator']['formats'] = [
+            'application/json' => \yii\web\Response::FORMAT_JSON
+        ];
+
 
         return $behaviors;
     }
