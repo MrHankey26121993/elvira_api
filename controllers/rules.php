@@ -18,6 +18,7 @@ $api = [
             'POST service' => 'service',
             'OPTIONS service' => 'options',
             'POST form' => 'form',
+            'POST contacts' => 'contacts',
             'OPTIONS <action>' => 'options'
         ],
     ],

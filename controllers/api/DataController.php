@@ -2,6 +2,7 @@
 
 namespace app\controllers\api;
 
+use app\models\Contacts;
 use app\models\Price;
 use app\models\Service;
 use app\models\Slide;
@@ -93,7 +94,8 @@ class DataController extends Controller
         $service = Service::find()->with('price')->asArray()->all();
         $slides = Slide::find()->all();
         $works = Works::find()->all();
-        return ['service' => $service, 'slides' => $slides, 'works' => $works];
+        $contacts = Contacts::find()->one();
+        return ['service' => $service, 'slides' => $slides, 'works' => $works, 'contacts' => $contacts];
     }
 
     public function actionLogin()
@@ -237,7 +239,6 @@ class DataController extends Controller
             $model = new Works();
         }
 
-
         $date = new \DateTime('now');
         $name = strtotime($date->format('Y-m-d H:m:i')) . ".png";
 
@@ -247,6 +248,15 @@ class DataController extends Controller
             $model->img = $relativePathDesk;
         }
         if ($model->save()) {
+            return $model;
+        }
+        return false;
+    }
+
+    public function actionContacts() {
+        $model = Contacts::find()->one();
+        $model->load($this->param, '');
+        if($model->save()) {
             return $model;
         }
         return false;
